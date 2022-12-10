@@ -1,7 +1,7 @@
 library(readxl)
 library(tidyverse)
 
-calories <- read_excel("~/Desktop/Sonstiges/Advent of Code/day1/aoc1.xlsx")
+calories <- read_excel("~/Documents/GitHub/advent_of_code_2022/day1/aoc1.xlsx")
 
 calories$elve <- NA
 

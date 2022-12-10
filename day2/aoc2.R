@@ -1,6 +1,6 @@
 library(tidyverse)
 
-df <- read_table("~/Desktop/Sonstiges/Advent of Code/day2/day2_data.txt")
+df <- read_table("~/Documents/GitHub/advent_of_code_2022/day2/day2_data.txt")
 
 
 ## PARTA
