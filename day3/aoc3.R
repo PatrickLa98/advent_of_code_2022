@@ -60,7 +60,53 @@ for (i in seq(df_compartments$rucksack)) {
  
 ## add priorities to different items
  df_priorities <- data.frame(letter = c(letters, LETTERS), priority = c(1:52))
-result <- inner_join(df_compartments, df_priorities, by = c("item_shared" ="letter"))
+resultA <- inner_join(df_compartments, df_priorities, by = c("item_shared" ="letter"))
 
 ## result
-sum(result$priority)
+sum(resultA$priority)
+
+
+# PARTB
+
+rm(list = ls())
+df <- read_table("~/Documents/GitHub/advent_of_code_2022/day3/day3_data.txt")
+
+## create group identifier
+n_groups <- nrow(df) / 3
+group <- rep(1, 3)
+
+for (i in 2: n_groups) {
+  
+temp<- rep(i,3)  
+group <- c(group, temp)
+
+}
+
+df$group <- group 
+
+## identify different elves within group
+df$elve_in_group <- rep(c("elve1", "elve2", "elve3"), n_groups)
+
+df_by_group <- df %>% 
+  group_by(group) %>% 
+  pivot_wider(names_from = elve_in_group, values_from = items )
+
+## find matching item between 3 elves in a group
+for (j in 1: n_groups) {
+split_elve2 <- str_split(df_by_group$elve2[j], "")[[1]]
+
+match_elve1_elve2  <- str_match(df_by_group$elve1[j], split_elve2)
+
+match <- str_match(df_by_group$elve3[j], match_elve1_elve2)
+df_by_group$match[j] <- match[!is.na(match)]
+
+}
+
+## add priorities to items
+df_priorities <- data.frame(letter = c(letters, LETTERS), priority = c(1:52))
+
+resultB <- inner_join(df_by_group, df_priorities, by = c("match" ="letter"))
+
+sum(resultB$priority)
+
+
